@@ -8,7 +8,7 @@ __END__
 
 =head1 NAME
 
-App::Ikachan -
+App::Ikachan - IRC message delivery by HTTP
 
 =head1 SYNOPSIS
 

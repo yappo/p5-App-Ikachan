@@ -1,0 +1,145 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use 5.008001;
+use File::Spec;
+use File::Basename;
+use lib File::Spec->catdir(dirname(__FILE__), '..', 'lib');
+
+use AnySan;
+use AnySan::Provider::IRC;
+use Getopt::Long ();
+use Plack::Builder;
+use Plack::Request;
+use Plack::Response;
+use Twiggy::Server;
+
+my $parser = Getopt::Long::Parser->new(
+    config => [ "no_ignore_case", "pass_through" ],
+);
+
+my %options;
+my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname) =
+    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan');
+$parser->getoptions(
+    'o|host=s'     => \$http_host,
+    'p|port=i'     => \$http_port,
+    'S|Server=s'   => \$irc_server,
+    'P|Port=i'     => \$irc_port,
+    'K|Keyword=s'  => \$irc_keyword,
+    'N|Nickname=s' => \$irc_nickname,
+    'h|help'       => \$options{help},
+    'v|version'    => \$options{version},
+);
+
+warn 'connecting to ' . join ' ', ($irc_server, $irc_port, ($irc_keyword || ''), $irc_nickname);
+
+my $irc = irc $irc_server,
+    key      => $irc_server,
+    port     => $irc_port,
+    password => $irc_keyword,
+    nickname => $irc_nickname,
+    channels => {
+    };
+
+sub rendar {
+    my($code, $msg) = @_;
+    my $res = Plack::Response->new($code);
+    $res->body($msg);
+    $res->finalize;
+}
+
+my $channels = {};
+my $code = sub {
+    my $req = Plack::Request->new(shift);
+    my $method = $req->method;
+    my $path   = $req->path;
+
+    if ($method eq 'GET') {
+        if ($path eq '/channel_list') {
+            my $list = [ keys %{ $channels } ];
+            return rendar(200, join("\n", @$list));
+        }
+    } elsif ($method eq 'POST') {
+        my $channel = $req->param('channel');
+
+        if ($path eq '/join') {
+            return rendar(403, "joinned channel: $channel") if $channels->{$channel};
+            $irc->join_channel($channel);
+            $channels->{$channel} = {
+                join_at => time(),
+            };
+            return rendar(200, "join success channel: $channel");
+        } elsif ($path eq '/leave') {
+            return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
+            $irc->leave_channel($channel);
+            delete $channels->{$channel};
+            return rendar(200, "leave success channel: $channel");
+        } elsif ($path eq '/notice') {
+            return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
+            my $message = $req->param('message');
+            $irc->send_message( $message, channel => $channel );
+            return rendar(200, "message sent channel: $channel $message");
+        }
+    }
+
+    return rendar(404, 'not found');
+};
+
+my $app = builder {
+    enable 'Plack::Middleware::AccessLog', format => 'combined';
+    $code;
+};
+
+warn "starting httpd: http://$http_host:$http_port/";
+my $twiggy = Twiggy::Server->new(
+    host => $http_host,
+    port => $http_port,
+);
+$twiggy->register_service($app);
+
+AnySan->run;
+
+__END__
+
+=head1 NAME
+
+ikachan - IRC message delivery by HTTP
+
+=head1 SYNOPSIS
+
+  # connect to chat.freenode.net
+  ikachan -S chat.freenode.net
+
+=head1 OPTIONS
+
+=over 4
+
+=item -o, --host
+
+The interface a TCP based server daemon binds to. Defauts to undef,
+which lets most server backends bind the any (*) interface. This
+option doesn't mean anything if the server does not support TCP
+socket.
+
+=item -p, --port (default: 4979)
+
+The port number a TCP based server daemon listens on. Defaults to
+5000. This option doesn't mean anything if the server does not support
+TCP socket.
+
+=item -Server, --Server
+
+irc server address.
+
+=item -P, --Port (default: 6667)
+
+irc server port.
+
+=item -K, --Keyword
+
+=item -N, --Nickname
+
+=back
+
+=cut

@@ -1,0 +1,101 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use 5.008001;
+use File::Spec;
+use File::Basename;
+use lib File::Spec->catdir(dirname(__FILE__), '..', 'lib');
+
+use App::Ikachan;
+use Getopt::Long ();
+use LWP::UserAgent;
+
+my $parser = Getopt::Long::Parser->new(
+    config => [ "no_ignore_case", "pass_through" ],
+);
+
+my $ikachan_server = 'http://127.0.0.1:4979/';
+$parser->getoptions(
+    's|server=s'     => \$ikachan_server,
+);
+
+sub usage {
+    print "ikachan_client
+$0 [-s ikachan_server] join #channel
+$0 [-s ikachan_server] leave #channel
+$0 [-s ikachan_server] notice #channel message
+";
+}
+
+my $command = shift @ARGV;
+my $channel = shift @ARGV;
+unless ($channel) {
+    usage();
+    exit;
+}
+
+my @params;
+if ($command eq 'join') {
+    @params = (
+        "${ikachan_server}join",
+        +{
+            channel => $channel,
+        },
+    );
+} elsif ($command eq 'leave') {
+    @params = (
+        "${ikachan_server}leave",
+        +{
+            channel => $channel,
+        },
+    );
+} elsif ($command eq 'notice') {
+    my $message = shift @ARGV;
+    unless ($message) {
+        usage();
+        exit;
+    }
+    @params = (
+        "${ikachan_server}notice",
+        +{
+            channel => $channel,
+            message => $message,
+        },
+    );
+} else {
+    usage();
+    exit;
+}
+
+my $ua = LWP::UserAgent->new(
+    agent => "IkachanClient/$App::Ikachan::VERSION",
+);
+my $res = $ua->post(@params);
+print $res->content . "\n";
+
+__END__
+
+=head1 NAME
+
+ikachan - IRC message delivery by HTTP
+
+=head1 SYNOPSIS
+
+  # join channel
+  ikachan -s http://127.0.0.1:4979/ join #channel
+
+  # leave channel
+  ikachan -s http://127.0.0.1:4979/ leave #channel
+
+  # sent message
+  ikachan -s http://127.0.0.1:4979/ notice #channel message
+
+=head1 OPTIONS
+
+=over 4
+
+=item -s, --server
+
+ikachan server url.
+
+=cut
