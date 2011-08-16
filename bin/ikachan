@@ -61,6 +61,52 @@ my $code = sub {
         if ($path eq '/channel_list') {
             my $list = [ keys %{ $channels } ];
             return rendar(200, join("\n", @$list));
+        } elsif ($path eq '/') {
+            my $base = $req->base;
+            my $html =<<HTML;
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ikachan</title>
+    <head>
+    <body>
+        <h1>ikachan</h1>
+
+        <h2>join channel list</h2>
+        <iframe src="/channel_list"></iframe>
+
+        <h2>API usage</u2>
+
+        <h3>channel join</h3>
+        <table border="1">
+            <tr><td>method</td><td>POST</td></tr>
+            <tr><td>url</td><td>${base}join</td></tr>
+            <tr><td>form params</td><td>channel=#channel</td></tr>
+        </table>
+
+        <h3>channel leave</h3>
+        <table border="1">
+            <tr><td>method</td><td>POST</td></tr>
+            <tr><td>url</td><td>${base}leave</td></tr>
+            <tr><td>form params</td><td>channel=#channel</td></tr>
+        </table>
+
+        <h3>sent notice message to channel</h3>
+        <table border="1">
+            <tr><td>method</td><td>POST</td></tr>
+            <tr><td>url</td><td>${base}notice</td></tr>
+            <tr><td>form params</td><td>channel=#channel&message=your_message</td></tr>
+        </table>
+    </body>
+</html>
+HTML
+
+            my $res = Plack::Response->new(200);
+            $res->content_type('text/html; charset=utf-8');
+            $res->content_length(length $html);
+            $res->body($html);
+            return $res->finalize;
         }
     } elsif ($method eq 'POST') {
         my $channel = $req->param('channel');
