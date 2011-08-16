@@ -45,6 +45,8 @@ my $irc = irc $irc_server,
 sub rendar {
     my($code, $msg) = @_;
     my $res = Plack::Response->new($code);
+    $res->content_type('text/plain');
+    $res->content_length(length $msg);
     $res->body($msg);
     $res->finalize;
 }
