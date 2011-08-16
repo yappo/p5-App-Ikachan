@@ -72,7 +72,7 @@ my $code = sub {
                 join_at => time(),
             };
             return rendar(200, "join success channel: $channel");
-        } elsif ($path eq '/leave') {
+        } elsif ($path eq '/leave' || $path eq '/part') {
             return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
             $irc->leave_channel($channel);
             delete $channels->{$channel};
