@@ -32,7 +32,6 @@ $parser->getoptions(
     'h|help'       => \$options{help},
     'v|version'    => \$options{version},
 );
-$post_with_join = !!! $post_with_join;
 
 warn 'connecting to ' . join ' ', ($irc_server, $irc_port, ($irc_keyword || ''), $irc_nickname);
 
