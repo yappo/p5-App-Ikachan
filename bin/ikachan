@@ -107,9 +107,8 @@ my $code = sub {
                 <tr><td>url</td><td>${base}leave</td></tr>
                 <tr><td>form params</td><td>channel=#channel</td></tr>
             </table>
-            <form action="/notice" method="post">
-                channel: <input name="channel" /><br />
-                message: <input name="message" /><input type="submit" value="post" />
+            <form action="/leave" method="post">
+                leave channel: <input name="channel" /><input type="submit" value="leave" />
             </form>
         <section>
 
@@ -120,8 +119,9 @@ my $code = sub {
                 <tr><td>url</td><td>${base}notice</td></tr>
                 <tr><td>form params</td><td>channel=#channel&message=your_message</td></tr>
             </table>
-            <form action="/leave" method="post">
-                leave channel: <input name="channel" /><input type="submit" value="leave" />
+            <form action="/notice" method="post">
+                channel: <input name="channel" /><br />
+                message: <input name="message" /><input type="submit" value="post" />
             </form>
         </section>
     </body>
