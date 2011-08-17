@@ -19,8 +19,8 @@ my $parser = Getopt::Long::Parser->new(
 );
 
 my %options;
-my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname) =
-    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan');
+my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $no_post_with_join) =
+    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', 0);
 $parser->getoptions(
     'o|host=s'     => \$http_host,
     'p|port=i'     => \$http_port,
@@ -28,9 +28,11 @@ $parser->getoptions(
     'P|Port=i'     => \$irc_port,
     'K|Keyword=s'  => \$irc_keyword,
     'N|Nickname=s' => \$irc_nickname,
+    'j|no-post-with-join' => \$no_post_with_join,
     'h|help'       => \$options{help},
     'v|version'    => \$options{version},
 );
+$post_with_join = !!! $post_with_join;
 
 warn 'connecting to ' . join ' ', ($irc_server, $irc_port, ($irc_keyword || ''), $irc_nickname);
 
@@ -124,7 +126,11 @@ HTML
             delete $channels->{$channel};
             return rendar(200, "leave success channel: $channel");
         } elsif ($path eq '/notice') {
-            return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
+            if ($no_post_with_join) {
+                return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
+            } elsif (not $channels->{$channel}) {
+                $irc->join_channel($channel);
+            }
             my $message = $req->param('message');
             $irc->send_message( $message, channel => $channel );
             return rendar(200, "message sent channel: $channel $message");
@@ -187,6 +193,8 @@ irc server port.
 =item -K, --Keyword
 
 =item -N, --Nickname
+
+=item -j, --no-post-with-join
 
 =back
 
