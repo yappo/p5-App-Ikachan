@@ -53,6 +53,14 @@ sub rendar {
 }
 
 my $channels = {};
+sub join_channel {
+    my $channel = shift;
+    $irc->join_channel($channel);
+    $channels->{$channel} = {
+        join_at => time(),
+    };
+}
+
 my $code = sub {
     my $req = Plack::Request->new(shift);
     my $method = $req->method;
@@ -114,10 +122,7 @@ HTML
 
         if ($path eq '/join') {
             return rendar(403, "joinned channel: $channel") if $channels->{$channel};
-            $irc->join_channel($channel);
-            $channels->{$channel} = {
-                join_at => time(),
-            };
+            join_channel($channel);
             return rendar(200, "join success channel: $channel");
         } elsif ($path eq '/leave' || $path eq '/part') {
             return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
@@ -128,7 +133,7 @@ HTML
             if ($no_post_with_join) {
                 return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
             } elsif (not $channels->{$channel}) {
-                $irc->join_channel($channel);
+                join_channel($channel);
             }
             my $message = $req->param('message');
             $irc->send_message( $message, channel => $channel );
