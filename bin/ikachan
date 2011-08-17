@@ -88,25 +88,42 @@ my $code = sub {
         <h2>API usage</u2>
 
         <h3>channel join</h3>
-        <table border="1">
-            <tr><td>method</td><td>POST</td></tr>
-            <tr><td>url</td><td>${base}join</td></tr>
-            <tr><td>form params</td><td>channel=#channel</td></tr>
-        </table>
+        <section>
+            <table border="1">
+                <tr><td>method</td><td>POST</td></tr>
+                <tr><td>url</td><td>${base}join</td></tr>
+                <tr><td>form params</td><td>channel=#channel</td></tr>
+            </table>
+            <h4>testing form</h4>
+            <form action="/join" method="post">
+                join channel: <input name="channel" /><input type="submit" value="join" />
+            </form>
+        <section>
 
-        <h3>channel leave</h3>
-        <table border="1">
-            <tr><td>method</td><td>POST</td></tr>
-            <tr><td>url</td><td>${base}leave</td></tr>
-            <tr><td>form params</td><td>channel=#channel</td></tr>
-        </table>
+        <section>
+            <h3>channel leave</h3>
+            <table border="1">
+                <tr><td>method</td><td>POST</td></tr>
+                <tr><td>url</td><td>${base}leave</td></tr>
+                <tr><td>form params</td><td>channel=#channel</td></tr>
+            </table>
+            <form action="/notice" method="post">
+                channel: <input name="channel" /><br />
+                message: <input name="message" /><input type="submit" value="post" />
+            </form>
+        <section>
 
-        <h3>sent notice message to channel</h3>
-        <table border="1">
-            <tr><td>method</td><td>POST</td></tr>
-            <tr><td>url</td><td>${base}notice</td></tr>
-            <tr><td>form params</td><td>channel=#channel&message=your_message</td></tr>
-        </table>
+        <section>
+            <h3>sent notice message to channel</h3>
+            <table border="1">
+                <tr><td>method</td><td>POST</td></tr>
+                <tr><td>url</td><td>${base}notice</td></tr>
+                <tr><td>form params</td><td>channel=#channel&message=your_message</td></tr>
+            </table>
+            <form action="/leave" method="post">
+                leave channel: <input name="channel" /><input type="submit" value="leave" />
+            </form>
+        </section>
     </body>
 </html>
 HTML
