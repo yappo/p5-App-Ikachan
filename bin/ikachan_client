@@ -24,6 +24,7 @@ sub usage {
 $0 [-s ikachan_server] join #channel
 $0 [-s ikachan_server] leave #channel
 $0 [-s ikachan_server] notice #channel message
+$0 [-s ikachan_server] privmsg #channel message
 ";
 }
 
@@ -62,6 +63,19 @@ if ($command eq 'join') {
             message => $message,
         },
     );
+} elsif ($command eq 'privmsg') {
+    my $message = shift @ARGV;
+    unless ($message) {
+        usage();
+        exit;
+    }
+    @params = (
+        "${ikachan_server}privmsg",
+        +{
+            channel => $channel,
+            message => $message,
+        },
+    );
 } else {
     usage();
     exit;
@@ -89,6 +103,7 @@ ikachan - IRC message delivery by HTTP
 
   # sent message
   ikachan -s http://127.0.0.1:4979/ notice #channel message
+  ikachan -s http://127.0.0.1:4979/ privmsg #channel message
 
 =head1 OPTIONS
 

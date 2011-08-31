@@ -124,6 +124,19 @@ my $code = sub {
                 message: <input name="message" /><input type="submit" value="post" />
             </form>
         </section>
+
+        <section>
+            <h3>sent privmsg message to channel</h3>
+            <table border="1">
+                <tr><td>method</td><td>POST</td></tr>
+                <tr><td>url</td><td>${base}privmsg</td></tr>
+                <tr><td>form params</td><td>channel=#channel&message=your_message</td></tr>
+            </table>
+            <form action="/privmsg" method="post">
+                channel: <input name="channel" /><br />
+                message: <input name="message" /><input type="submit" value="post" />
+            </form>
+        </section>
     </body>
 </html>
 HTML
@@ -154,6 +167,15 @@ HTML
             }
             my $message = $req->param('message');
             $irc->send_message( $message, channel => $channel );
+            return rendar(200, "message sent channel: $channel $message");
+        } elsif ($path eq '/privmsg') {
+            if ($no_post_with_join) {
+                return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
+            } elsif (not $channels->{$channel}) {
+                join_channel($channel);
+            }
+            my $message = $req->param('message');
+            $irc->send_message( $message, channel => $channel, privmsg => 1 );
             return rendar(200, "message sent channel: $channel $message");
         }
     }
