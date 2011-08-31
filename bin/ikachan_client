@@ -96,14 +96,14 @@ ikachan - IRC message delivery by HTTP
 =head1 SYNOPSIS
 
   # join channel
-  ikachan -s http://127.0.0.1:4979/ join #channel
+  ikachan -s http://127.0.0.1:4979/ join \#channel
 
   # leave channel
-  ikachan -s http://127.0.0.1:4979/ leave #channel
+  ikachan -s http://127.0.0.1:4979/ leave \#channel
 
   # sent message
-  ikachan -s http://127.0.0.1:4979/ notice #channel message
-  ikachan -s http://127.0.0.1:4979/ privmsg #channel message
+  ikachan -s http://127.0.0.1:4979/ notice \#channel message
+  ikachan -s http://127.0.0.1:4979/ privmsg \#channel message
 
 =head1 OPTIONS
 
