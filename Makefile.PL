@@ -15,5 +15,4 @@ install_script 'bin/ikachan';
 
 build_requires 'Test::More';
 auto_set_repository;
-auto_include;
 WriteAll;
