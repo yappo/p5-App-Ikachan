@@ -9,6 +9,7 @@ use lib File::Spec->catdir(dirname(__FILE__), '..', 'lib');
 use AnySan;
 use AnySan::Provider::IRC;
 use Getopt::Long ();
+use Pod::Usage;
 use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
@@ -32,6 +33,8 @@ $parser->getoptions(
     'h|help'       => \$options{help},
     'v|version'    => \$options{version},
 );
+pod2usage(1) if $options{help};
+die "Missing mandatory parameter: irc_server" unless defined $irc_server;
 
 warn 'connecting to ' . join ' ', ($irc_server, $irc_port, ($irc_keyword || ''), $irc_nickname);
 
@@ -225,7 +228,7 @@ The port number a TCP based server daemon listens on. Defaults to
 5000. This option doesn't mean anything if the server does not support
 TCP socket.
 
-=item -Server, --Server
+=item -S, --Server
 
 irc server address.
 
