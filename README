@@ -1,17 +1,29 @@
 NAME
-    App::Ikachan -
+    ikachan - IRC message delivery by HTTP
 
 SYNOPSIS
-        use App::Ikachan;
+      # connect to chat.freenode.net
+      ikachan -S chat.freenode.net
 
-DESCRIPTION
-    App::Ikachan is
+OPTIONS
+    -o, --host
+        The interface a TCP based server daemon binds to. Defauts to undef,
+        which lets most server backends bind the any (*) interface. This
+        option doesn't mean anything if the server does not support TCP
+        socket.
 
-AUTHOR
-    Kazuhiro Osawa <yappo {at} shibuya {dot} pl>
+    -p, --port (default: 4979)
+        The port number a TCP based server daemon listens on. Defaults to
+        5000. This option doesn't mean anything if the server does not
+        support TCP socket.
 
-SEE ALSO
-LICENSE
-    This library is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself.
+    -S, --Server
+        irc server address.
+
+    -P, --Port (default: 6667)
+        irc server port.
+
+    -K, --Keyword
+    -N, --Nickname
+    -j, --no-post-with-join
 

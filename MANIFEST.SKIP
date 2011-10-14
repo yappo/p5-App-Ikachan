@@ -20,3 +20,5 @@
 ^\.git/
 \.sw[po]$
 ^MYMETA.yml$
+META.yml
+MYMETA.json
