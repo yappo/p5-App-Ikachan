@@ -8,25 +8,44 @@ __END__
 
 =head1 NAME
 
-App::Ikachan - IRC message delivery by HTTP
+ikachan - IRC message delivery by HTTP
 
 =head1 SYNOPSIS
 
-    use App::Ikachan;
+  # connect to chat.freenode.net
+  ikachan -S chat.freenode.net
 
-=head1 DESCRIPTION
+=head1 OPTIONS
 
-App::Ikachan is
+=over 4
 
-=head1 AUTHOR
+=item -o, --host
 
-Kazuhiro Osawa E<lt>yappo {at} shibuya {dot} plE<gt>
+The interface a TCP based server daemon binds to. Defauts to undef,
+which lets most server backends bind the any (*) interface. This
+option doesn't mean anything if the server does not support TCP
+socket.
 
-=head1 SEE ALSO
+=item -p, --port (default: 4979)
 
-=head1 LICENSE
+The port number a TCP based server daemon listens on. Defaults to
+5000. This option doesn't mean anything if the server does not support
+TCP socket.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+=item -S, --Server
+
+irc server address.
+
+=item -P, --Port (default: 6667)
+
+irc server port.
+
+=item -K, --Keyword
+
+=item -N, --Nickname
+
+=item -j, --no-post-with-join
+
+=back
 
 =cut
