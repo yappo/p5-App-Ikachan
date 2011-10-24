@@ -1,4 +1,7 @@
 Revision history for Perl extension App::Ikachan
 
+0.02    2011-10-24T11:46:58+09:00
+        - required AnySan 0.02
+
 0.01    Tue Aug 16 12:02:12 2011
         - original version
