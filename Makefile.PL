@@ -5,7 +5,7 @@ readme_from 'lib/App/Ikachan.pm';
 readme_markdown_from 'lib/App/Ikachan.pm';
 githubmeta;
 
-requires 'AnySan' => '0.02';
+requires 'AnySan' => '0.03';
 requires 'Twiggy';
 
 tests 't/*.t';
