@@ -7,6 +7,7 @@ githubmeta;
 
 requires 'AnySan' => '0.02';
 requires 'Twiggy';
+requires 'AnyEvent::IRC';
 
 tests 't/*.t';
 author_tests 'xt';
