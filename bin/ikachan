@@ -29,6 +29,7 @@ $parser->getoptions(
     'P|Port=i'     => \$irc_port,
     'K|Keyword=s'  => \$irc_keyword,
     'N|Nickname=s' => \$irc_nickname,
+    'i|interval=s' => \$irc_post_interval,
     'j|no-post-with-join' => \$no_post_with_join,
     'h|help'       => \$options{help},
     'v|version'    => \$options{version},
@@ -38,11 +39,13 @@ die "Missing mandatory parameter: irc_server" unless defined $irc_server;
 
 warn 'connecting to ' . join ' ', ($irc_server, $irc_port, ($irc_keyword || ''), $irc_nickname);
 
+$interval ||= 2;
 my $irc = irc $irc_server,
     key      => $irc_server,
     port     => $irc_port,
     password => $irc_keyword,
     nickname => $irc_nickname,
+    interval => $interval,
     channels => {
     };
 
@@ -239,6 +242,10 @@ irc server port.
 =item -K, --Keyword
 
 =item -N, --Nickname
+
+=item -i, --interval
+
+irc post interval. for Excess Flood
 
 =item -j, --no-post-with-join
 

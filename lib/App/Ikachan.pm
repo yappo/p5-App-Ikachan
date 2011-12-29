@@ -44,6 +44,10 @@ irc server port.
 
 =item -N, --Nickname
 
+=item -i, --interval
+
+irc post interval. for Excess Flood
+
 =item -j, --no-post-with-join
 
 =back
