@@ -1,5 +1,9 @@
 Revision history for Perl extension App::Ikachan
 
+0.04    2011-12-29T17:49:18+09:00
+        - add --interval option
+        - keyword channel support (shibayu36++)
+
 0.03    2011-10-24T12:33:28+09:00
         - required AnySan 0.03
 

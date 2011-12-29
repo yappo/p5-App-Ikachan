@@ -32,4 +32,8 @@ irc server port.
 
 - -K, --Keyword
 - -N, --Nickname
+- -i, --interval
+
+irc post interval. for Excess Flood
+
 - -j, --no-post-with-join
