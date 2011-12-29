@@ -20,8 +20,8 @@ my $parser = Getopt::Long::Parser->new(
 );
 
 my %options;
-my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $no_post_with_join) =
-    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', 0);
+my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $no_post_with_join, $irc_post_interval) =
+    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', 0, 2);
 $parser->getoptions(
     'o|host=s'     => \$http_host,
     'p|port=i'     => \$http_port,
@@ -39,13 +39,13 @@ die "Missing mandatory parameter: irc_server" unless defined $irc_server;
 
 warn 'connecting to ' . join ' ', ($irc_server, $irc_port, ($irc_keyword || ''), $irc_nickname);
 
-$interval ||= 2;
+$irc_post_interval ||= 2;
 my $irc = irc $irc_server,
     key      => $irc_server,
     port     => $irc_port,
     password => $irc_keyword,
     nickname => $irc_nickname,
-    interval => $interval,
+    interval => $irc_post_interval,
     channels => {
     };
 
