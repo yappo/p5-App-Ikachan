@@ -60,8 +60,8 @@ sub rendar {
 
 my $channels = {};
 sub join_channel {
-    my $channel = shift;
-    $irc->join_channel($channel);
+    my ($channel, $key) = @_;
+    $irc->join_channel($channel, $key);
     $channels->{$channel} = {
         join_at => time(),
     };
@@ -98,11 +98,12 @@ my $code = sub {
             <table border="1">
                 <tr><td>method</td><td>POST</td></tr>
                 <tr><td>url</td><td>${base}join</td></tr>
-                <tr><td>form params</td><td>channel=#channel</td></tr>
+                <tr><td>form params</td><td>channel=#channel&channel_keyword=keyword</td></tr>
             </table>
             <h4>testing form</h4>
             <form action="/join" method="post">
-                join channel: <input name="channel" /><input type="submit" value="join" />
+                join channel: <input name="channel" /><br />
+                channel keyword(option): <input name="channel_keyword" /><input type="submit" value="join" />
             </form>
         <section>
 
@@ -158,7 +159,8 @@ HTML
 
         if ($path eq '/join') {
             return rendar(403, "joinned channel: $channel") if $channels->{$channel};
-            join_channel($channel);
+            my $channel_keyword = $req->param('channel_keyword');
+            join_channel($channel, $channel_keyword);
             return rendar(200, "join success channel: $channel");
         } elsif ($path eq '/leave' || $path eq '/part') {
             return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
