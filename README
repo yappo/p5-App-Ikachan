@@ -34,3 +34,13 @@ OPTIONS
 
     -j, --no-post-with-join
 
+AUTHOR
+    Kazuhiro Osawa <yappo {at} shibuya {dot} pl>
+
+SEE ALSO
+    AnySan::Provider::IRC, Twiggy
+
+LICENSE
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+

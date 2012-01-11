@@ -41,3 +41,16 @@ treat X-Forwarded-For as REMOTE_ADDR if REMOTE_ADDR match this argument
 irc post interval. for Excess Flood
 
 - -j, --no-post-with-join
+
+# AUTHOR
+
+Kazuhiro Osawa <yappo {at} shibuya {dot} pl>
+
+# SEE ALSO
+
+[AnySan::Provider::IRC](http://search.cpan.org/perldoc?AnySan::Provider::IRC), [Twiggy](http://search.cpan.org/perldoc?Twiggy)
+
+# LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
