@@ -40,6 +40,10 @@ irc server address.
 
 irc server port.
 
+=item -r, --reverse-proxy
+
+treat X-Forwarded-For as REMOTE_ADDR if REMOTE_ADDR match this argument
+
 =item -K, --Keyword
 
 =item -N, --Nickname
