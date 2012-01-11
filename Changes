@@ -1,5 +1,10 @@
 Revision history for Perl extension App::Ikachan
 
+0.06    2012-01-11T17:02:11+09:00
+        - set license as perl license
+        - support Plack::Middleware::ReverseProxy for http interface (kazeburo++)
+        - wrote document to ikachan command args
+
 0.05    2011-12-29T18:02:10+09:00
         wow, oops
 
