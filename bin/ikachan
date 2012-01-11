@@ -11,6 +11,7 @@ use AnySan::Provider::IRC;
 use Getopt::Long ();
 use Pod::Usage;
 use Plack::Builder;
+use Plack::Builder::Conditionals;
 use Plack::Request;
 use Plack::Response;
 use Twiggy::Server;
@@ -22,9 +23,11 @@ my $parser = Getopt::Long::Parser->new(
 my %options;
 my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $no_post_with_join, $irc_post_interval) =
     ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', 0, 2);
+my @reverse_proxy;
 $parser->getoptions(
     'o|host=s'     => \$http_host,
     'p|port=i'     => \$http_port,
+    'r|reverse-proxy=s' => \@reverse_proxy,
     'S|Server=s'   => \$irc_server,
     'P|Port=i'     => \$irc_port,
     'K|Keyword=s'  => \$irc_keyword,
@@ -190,8 +193,10 @@ HTML
 
     return rendar(404, 'not found');
 };
-
 my $app = builder {
+    if ( @reverse_proxy ) {
+        enable match_if addr(\@reverse_proxy), 'Plack::Middleware::ReverseProxy';
+    }
     enable 'Plack::Middleware::AccessLog', format => 'combined';
     $code;
 };
@@ -240,6 +245,10 @@ irc server address.
 =item -P, --Port (default: 6667)
 
 irc server port.
+
+=item -r, --reverse-proxy
+
+treat X-Forwarded-For as REMOTE_ADDR if REMOTE_ADDR match this argument
 
 =item -K, --Keyword
 
