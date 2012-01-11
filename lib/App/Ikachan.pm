@@ -40,19 +40,27 @@ irc server address.
 
 irc server port.
 
-=item -r, --reverse-proxy
-
-treat X-Forwarded-For as REMOTE_ADDR if REMOTE_ADDR match this argument
-
 =item -K, --Keyword
 
+irc server password
+
 =item -N, --Nickname
+
+irc nickname
+
+=item -r, --reverse-proxy
+
+treat X-Forwarded-For as REMOTE_ADDR if REMOTE_ADDR match this argument.
+
+see L<Plack::Middleware::ReverseProxy>.
 
 =item -i, --interval
 
 irc post interval. for Excess Flood
 
 =item -j, --no-post-with-join
+
+disable to irc message post with channel join
 
 =back
 

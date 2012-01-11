@@ -30,17 +30,27 @@ irc server address.
 
 irc server port.
 
+- -K, --Keyword
+
+irc server password
+
+- -N, --Nickname
+
+irc nickname
+
 - -r, --reverse-proxy
 
-treat X-Forwarded-For as REMOTE_ADDR if REMOTE_ADDR match this argument
+treat X-Forwarded-For as REMOTE_ADDR if REMOTE_ADDR match this argument.
 
-- -K, --Keyword
-- -N, --Nickname
+see [Plack::Middleware::ReverseProxy](http://search.cpan.org/perldoc?Plack::Middleware::ReverseProxy).
+
 - -i, --interval
 
 irc post interval. for Excess Flood
 
 - -j, --no-post-with-join
+
+disable to irc message post with channel join
 
 # AUTHOR
 
