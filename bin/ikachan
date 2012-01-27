@@ -49,6 +49,9 @@ my $irc = irc $irc_server,
     password => $irc_keyword,
     nickname => $irc_nickname,
     interval => $irc_post_interval,
+    disconnect_cb => sub {
+        die $_[1];
+    },
     channels => {
     };
 
