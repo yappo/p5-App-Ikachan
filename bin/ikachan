@@ -54,7 +54,7 @@ my $create_session; $create_session = sub {
         password => $irc_keyword,
         nickname => $irc_nickname,
         interval => $irc_post_interval,
-        connect_cb => sub {
+        on_connect => sub {
             my ($con, $err) = @_;
             if (defined $err) {
                 die "connect error: $err\n";
@@ -62,7 +62,7 @@ my $create_session; $create_session = sub {
             warn 'connect';
             $is_connect      = 1;
         },
-        disconnect_cb => sub {
+        on_disconnect => sub {
             warn 'disconnect';
             # XXX: bad hack...
             undef $irc->{client};
