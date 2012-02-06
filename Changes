@@ -1,5 +1,8 @@
 Revision history for Perl extension App::Ikachan
 
+0.07    2012-02-06T17:22:28+09:00
+        - reconnect irc server on disconnect
+
 0.06    2012-01-11T17:02:11+09:00
         - set license as perl license
         - support Plack::Middleware::ReverseProxy for http interface (kazeburo++)
