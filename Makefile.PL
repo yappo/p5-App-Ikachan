@@ -7,7 +7,7 @@ githubmeta;
 
 requires 'Plack::Middleware::ReverseProxy';
 requires 'Plack::Builder::Conditionals';
-requires 'AnySan' => '0.04';
+requires 'AnySan' => '0.05';
 requires 'Twiggy';
 
 tests 't/*.t';
