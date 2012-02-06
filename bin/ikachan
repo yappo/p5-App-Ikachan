@@ -43,14 +43,39 @@ die "Missing mandatory parameter: irc_server" unless defined $irc_server;
 warn 'connecting to ' . join ' ', ($irc_server, $irc_port, ($irc_keyword || ''), $irc_nickname);
 
 $irc_post_interval ||= 2;
-my $irc = irc $irc_server,
-    key      => $irc_server,
-    port     => $irc_port,
-    password => $irc_keyword,
-    nickname => $irc_nickname,
-    interval => $irc_post_interval,
-    channels => {
-    };
+
+my $irc;
+my $join_channels = {};
+my $is_connect = 0;
+my $create_session; $create_session = sub {
+    irc $irc_server,
+        key      => $irc_server,
+        port     => $irc_port,
+        password => $irc_keyword,
+        nickname => $irc_nickname,
+        interval => $irc_post_interval,
+        connect_cb => sub {
+            my ($con, $err) = @_;
+            if (defined $err) {
+                die "connect error: $err\n";
+            }
+            warn 'connect';
+            $is_connect      = 1;
+        },
+        disconnect_cb => sub {
+            warn 'disconnect';
+            # XXX: bad hack...
+            undef $irc->{client};
+            undef $irc->{SEND_TIMER};
+            undef $irc;
+            $is_connect = 0;
+            $irc = $create_session->();
+        },
+        channels => {
+            map { $_ => +{} } keys %{ $join_channels },
+        };
+};
+$irc = $create_session->();
 
 sub rendar {
     my($code, $msg) = @_;
@@ -61,11 +86,10 @@ sub rendar {
     $res->finalize;
 }
 
-my $channels = {};
 sub join_channel {
     my ($channel, $key) = @_;
     $irc->join_channel($channel, $key);
-    $channels->{$channel} = {
+    $join_channels->{$channel} = {
         join_at => time(),
     };
 }
@@ -75,9 +99,27 @@ my $code = sub {
     my $method = $req->method;
     my $path   = $req->path;
 
+    if ($method eq 'POST' && ! $is_connect) {
+        my $html = q{<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ikachan</title>
+    <head>
+    <body>
+        can not connect to irc server
+    </body>
+</html>};
+        my $res = Plack::Response->new(503);
+        $res->content_type('text/html; charset=utf-8');
+        $res->content_length(length $html);
+        $res->body($html);
+        return $res->finalize;
+    }
+
     if ($method eq 'GET') {
         if ($path eq '/channel_list') {
-            my $list = [ keys %{ $channels } ];
+            my $list = [ keys %{ $join_channels } ];
             return rendar(200, join("\n", @$list));
         } elsif ($path eq '/') {
             my $base = $req->base;
@@ -161,19 +203,19 @@ HTML
         my $channel = $req->param('channel');
 
         if ($path eq '/join') {
-            return rendar(403, "joinned channel: $channel") if $channels->{$channel};
+            return rendar(403, "joinned channel: $channel") if $join_channels->{$channel};
             my $channel_keyword = $req->param('channel_keyword');
             join_channel($channel, $channel_keyword);
             return rendar(200, "join success channel: $channel");
         } elsif ($path eq '/leave' || $path eq '/part') {
-            return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
+            return rendar(404, "not joinned channel: $channel") unless $join_channels->{$channel};
             $irc->leave_channel($channel);
-            delete $channels->{$channel};
+            delete $join_channels->{$channel};
             return rendar(200, "leave success channel: $channel");
         } elsif ($path eq '/notice') {
             if ($no_post_with_join) {
-                return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
-            } elsif (not $channels->{$channel}) {
+                return rendar(404, "not joinned channel: $channel") unless $join_channels->{$channel};
+            } elsif (not $join_channels->{$channel}) {
                 join_channel($channel);
             }
             my $message = $req->param('message');
@@ -181,8 +223,8 @@ HTML
             return rendar(200, "message sent channel: $channel $message");
         } elsif ($path eq '/privmsg') {
             if ($no_post_with_join) {
-                return rendar(404, "not joinned channel: $channel") unless $channels->{$channel};
-            } elsif (not $channels->{$channel}) {
+                return rendar(404, "not joinned channel: $channel") unless $join_channels->{$channel};
+            } elsif (not $join_channels->{$channel}) {
                 join_channel($channel);
             }
             my $message = $req->param('message');
