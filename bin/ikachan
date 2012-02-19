@@ -57,7 +57,8 @@ my $create_session; $create_session = sub {
         on_connect => sub {
             my ($con, $err) = @_;
             if (defined $err) {
-                die "connect error: $err\n";
+                warn "connect error: $err\n";
+                exit 1;
             }
             warn 'connect';
             $is_connect      = 1;
