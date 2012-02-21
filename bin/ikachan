@@ -57,10 +57,13 @@ my $create_session; $create_session = sub {
         on_connect => sub {
             my ($con, $err) = @_;
             if (defined $err) {
-                die "connect error: $err\n";
+                warn "connect error: $err\n";
+                sleep 3;
+                $con->disconnect('try reconnect');
+            } else {
+                warn 'connect';
+                $is_connect      = 1;
             }
-            warn 'connect';
-            $is_connect      = 1;
         },
         on_disconnect => sub {
             warn 'disconnect';
