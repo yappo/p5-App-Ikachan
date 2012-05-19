@@ -48,6 +48,10 @@ see [Plack::Middleware::ReverseProxy](http://search.cpan.org/perldoc?Plack::Midd
 
 irc post interval. for Excess Flood
 
+- -R, --reconnect-interval
+
+interval of reconnect to irc server
+
 - -j, --no-post-with-join
 
 disable to irc message post with channel join
