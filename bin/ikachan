@@ -59,6 +59,7 @@ my $create_session; $create_session = sub {
             my ($con, $err) = @_;
             if (defined $err) {
                 warn "connect error: $err\n";
+                exit 1 unless $irc_reconnect_interval;
                 sleep $irc_reconnect_interval;
                 $con->disconnect('try reconnect');
             } else {
@@ -312,7 +313,8 @@ irc post interval. for Excess Flood
 
 =item -R, --reconnect-interval
 
-interval of reconnect to irc server
+interval of reconnect to irc server.
+exit application if interval == 0.
 
 =item -j, --no-post-with-join
 

@@ -60,7 +60,8 @@ irc post interval. for Excess Flood
 
 =item -R, --reconnect-interval
 
-interval of reconnect to irc server
+interval of reconnect to irc server.
+exit application if interval == 0.
 
 =item -j, --no-post-with-join
 
