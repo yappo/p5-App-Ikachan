@@ -1,5 +1,9 @@
 Revision history for Perl extension App::Ikachan
 
+0.08    2012-05-19T18:03:48+09:00
+        - add --reconnect-interval option.
+        - sleep and retry to reconnect when failed to connect IRC server. (hirose31++)
+
 0.07    2012-02-06T17:22:28+09:00
         - reconnect irc server on disconnect
 
