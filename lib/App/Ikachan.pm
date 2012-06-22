@@ -48,6 +48,10 @@ irc server password
 
 irc nickname
 
+=item -U, --User
+
+irc user name
+
 =item -r, --reverse-proxy
 
 treat X-Forwarded-For as REMOTE_ADDR if REMOTE_ADDR match this argument.
