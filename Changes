@@ -1,5 +1,10 @@
 Revision history for Perl extension App::Ikachan
 
+0.10    2013-03-07T20:51:43+09:00
+        - add pretty logo (created by kan fushihara)
+        - use cpanfile for carton
+        - depended AnySan 0.09 for join Excess Flood defender
+
 0.09    2012-06-22T14:00:22+09:00
         - add --User option (kuzuha++)
 
