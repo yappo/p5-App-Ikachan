@@ -40,7 +40,7 @@ $parser->getoptions(
     'v|version'    => \$options{version},
 );
 pod2usage(1) if $options{help};
-die "Missing mandatory parameter: irc_server" unless defined $irc_server;
+pod2usage() unless defined $irc_server;
 
 warn 'connecting to ' . join ' ', ($irc_server, $irc_port, ($irc_keyword || ''), $irc_nickname);
 
