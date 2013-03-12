@@ -1,5 +1,8 @@
 Revision history for Perl extension App::Ikachan
 
+0.11    2013-03-12T13:24:39+09:00
+        - user friendly (tokuhirom++)
+
 0.10    2013-03-07T20:51:43+09:00
         - add pretty logo (created by kan fushihara)
         - use cpanfile for carton
