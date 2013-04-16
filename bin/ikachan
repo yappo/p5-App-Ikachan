@@ -8,6 +8,7 @@ use lib File::Spec->catdir(dirname(__FILE__), '..', 'lib');
 
 use AnySan;
 use AnySan::Provider::IRC;
+use Encode (qw(from_to));
 use Getopt::Long ();
 use Pod::Usage;
 use Plack::Builder;
@@ -21,7 +22,7 @@ my $parser = Getopt::Long::Parser->new(
 );
 
 my %options;
-my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $irc_user, $no_post_with_join, $irc_post_interval, $irc_reconnect_interval) =
+my($http_host, $http_port, $irc_server, $irc_port, $irc_charset, $irc_keyword, $irc_nickname, $irc_user, $no_post_with_join, $irc_post_interval, $irc_reconnect_interval) =
     ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', undef, 0, 2, 3);
 my @reverse_proxy;
 $parser->getoptions(
@@ -30,6 +31,7 @@ $parser->getoptions(
     'r|reverse-proxy=s' => \@reverse_proxy,
     'S|Server=s'   => \$irc_server,
     'P|Port=i'     => \$irc_port,
+    'C|Charset=s'  => \$irc_charset,
     'K|Keyword=s'  => \$irc_keyword,
     'N|Nickname=s' => \$irc_nickname,
     'U|User=s'     => \$irc_user,
@@ -240,6 +242,9 @@ HTML
                 join_channel($channel);
             }
             my $message = $req->param('message');
+            if ( $irc_charset ) {
+                from_to($message, 'utf-8', $irc_charset);
+            }
             $irc->send_message( $message, channel => $channel );
             return rendar(200, "message sent channel: $channel $message");
         } elsif ($path eq '/privmsg') {
@@ -249,6 +254,9 @@ HTML
                 join_channel($channel);
             }
             my $message = $req->param('message');
+            if ( $irc_charset ) {
+                from_to($message, 'utf-8', $irc_charset);
+            }
             $irc->send_message( $message, channel => $channel, privmsg => 1 );
             return rendar(200, "message sent channel: $channel $message");
         }
@@ -6475,6 +6483,10 @@ irc server address.
 =item -P, --Port (default: 6667)
 
 irc server port.
+
+=item -C, --Charset (default: utf-8)
+
+irc server charset.
 
 =item -K, --Keyword
 
