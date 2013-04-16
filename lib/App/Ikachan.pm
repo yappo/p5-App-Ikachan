@@ -40,6 +40,10 @@ irc server address.
 
 irc server port.
 
+=item -C, --Charset (default: utf-8)
+
+irc server charset.
+
 =item -K, --Keyword
 
 irc server password

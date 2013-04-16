@@ -30,6 +30,10 @@ irc server address.
 
 irc server port.
 
+- -C, --Charset (default: utf-8)
+
+irc server charset.
+
 - -K, --Keyword
 
 irc server password
