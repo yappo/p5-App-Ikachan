@@ -21,8 +21,8 @@ my $parser = Getopt::Long::Parser->new(
 );
 
 my %options;
-my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $irc_user, $no_post_with_join, $irc_post_interval, $irc_reconnect_interval) =
-    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', undef, 0, 2, 3);
+my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $irc_user, $no_post_with_join, $irc_post_interval, $irc_reconnect_interval, $enable_ssl) =
+    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', undef, 0, 2, 3, 0);
 my @reverse_proxy;
 $parser->getoptions(
     'o|host=s'     => \$http_host,
@@ -34,6 +34,7 @@ $parser->getoptions(
     'N|Nickname=s' => \$irc_nickname,
     'U|User=s'     => \$irc_user,
     'i|interval=s' => \$irc_post_interval,
+    'enable-ssl'   => \$enable_ssl,
     'R|reconnect-interval=s' => \$irc_reconnect_interval,
     'j|no-post-with-join' => \$no_post_with_join,
     'h|help'       => \$options{help},
@@ -51,12 +52,13 @@ my $join_channels = {};
 my $is_connect = 0;
 my $create_session; $create_session = sub {
     irc $irc_server,
-        key      => $irc_server,
-        port     => $irc_port,
-        password => $irc_keyword,
-        nickname => $irc_nickname,
-        user     => $irc_user,
-        interval => $irc_post_interval,
+        key       => $irc_server,
+        port      => $irc_port,
+        password  => $irc_keyword,
+        nickname  => $irc_nickname,
+        user      => $irc_user,
+        interval  => $irc_post_interval,
+        enable_ssl => $enable_ssl,
         on_connect => sub {
             my ($con, $err) = @_;
             if (defined $err) {
@@ -6475,6 +6477,10 @@ irc server address.
 =item -P, --Port (default: 6667)
 
 irc server port.
+
+=item --enable-ssl
+
+use ssl connection.
 
 =item -K, --Keyword
 
