@@ -1,5 +1,9 @@
 Revision history for Perl extension App::Ikachan
 
+0.11    2013-05-23T18:33:30+09:00
+        - add --enable-ssl option
+        - fix documentation bug
+
 0.10    2013-03-07T20:51:43+09:00
         - add pretty logo (created by kan fushihara)
         - use cpanfile for carton
