@@ -21,10 +21,8 @@ ikachan - IRC message delivery by HTTP
 
 =item -o, --host
 
-The interface a TCP based server daemon binds to. Defauts to undef,
-which lets most server backends bind the any (*) interface. This
-option doesn't mean anything if the server does not support TCP
-socket.
+The interface a TCP based server daemon binds to. Default bind address
+is '127.0.0.1'. 
 
 =item -p, --port (default: 4979)
 
