@@ -274,7 +274,7 @@ my $app = builder {
     }
 };
 
-warn "starting httpd: http://$http_host:$http_port/" . $mount | '';
+warn "starting httpd: http://$http_host:$http_port/" . $mount || '';
 my $twiggy = Twiggy::Server->new(
     host => $http_host,
     port => $http_port,
