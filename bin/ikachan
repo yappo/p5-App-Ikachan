@@ -268,8 +268,7 @@ my $app = builder {
     enable 'Plack::Middleware::AccessLog', format => 'combined';
     if ( $mount ) {
         mount "/$mount" => $code;
-    }
-    else {
+    } else {
         $code;
     }
 };
