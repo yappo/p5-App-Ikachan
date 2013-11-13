@@ -1,0 +1,81 @@
+{
+   "abstract" : "IRC message delivery by HTTP",
+   "author" : [
+      "Kazuhiro Osawa <yappo {at} shibuya {dot} pl>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Milla version v1.0.4, Dist::Zilla version 4.300039, CPAN::Meta::Converter version 2.132620",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "App-Ikachan",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "inc",
+         "share",
+         "eg",
+         "examples"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Module::Build" : "0.3601"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.3601"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::Pod" : "1.41"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "AnySan" : "0.10",
+            "Plack::Builder::Conditionals" : "0",
+            "Plack::Middleware::ReverseProxy" : "0",
+            "Twiggy" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0.88"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/yappo/p5-App-Ikachan/issues"
+      },
+      "homepage" : "https://github.com/yappo/p5-App-Ikachan",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/yappo/p5-App-Ikachan.git",
+         "web" : "https://github.com/yappo/p5-App-Ikachan"
+      }
+   },
+   "version" : "v0.2.0",
+   "x_contributors" : [
+      "HIROSE Masaaki <hirose31@gmail.com>",
+      "Kazuhiro Osawa <yappo@shibuya.pl>",
+      "Masahiro Nagano <kazeburo@gmail.com>",
+      "TAGOMORI Satoshi <tagomoris@gmail.com>",
+      "Tokuhiro Matsuno <tokuhirom@gmail.com>",
+      "kuzuha <kuzuha01@hotmail.com>",
+      "shiba_yu36 <shibayu36@gmail.com>",
+      "soh335 <sugarbabe335@gmail.com>",
+      "tokuhirom <tokuhirom@gmail.com>"
+   ]
+}
+
