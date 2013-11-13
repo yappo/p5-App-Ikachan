@@ -59,6 +59,10 @@ ikachan - IRC message delivery by HTTP
 
     disable to irc message post with channel join
 
+- \-m, --mount
+
+    provide TCP based server daemon with path. Default do nothing.
+
 # AUTHOR
 
 Kazuhiro Osawa <yappo {at} shibuya {dot} pl>

@@ -46,6 +46,9 @@ OPTIONS
     -j, --no-post-with-join
         disable to irc message post with channel join
 
+    -m, --mount
+        provide TCP based server daemon with path. Default do nothing.
+
 AUTHOR
     Kazuhiro Osawa <yappo {at} shibuya {dot} pl>
 

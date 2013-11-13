@@ -10,3 +10,6 @@ nytprof.out
 MANIFEST.bak
 *.sw[po]
 META.json
+MYMETA.*
+_build_params
+Build
