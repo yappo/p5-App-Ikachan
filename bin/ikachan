@@ -16,6 +16,8 @@ use Plack::Request;
 use Plack::Response;
 use Twiggy::Server;
 
+use App::Ikachan;
+
 my $parser = Getopt::Long::Parser->new(
     config => [ "no_ignore_case", "pass_through" ],
 );
@@ -140,7 +142,7 @@ my $code = sub {
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>ikachan</title>
+        <title>ikachan $App::Ikachan::VERSION</title>
         <style>
             ${css}
 
@@ -151,6 +153,7 @@ my $code = sub {
         <div class="row"><div class="span12">
         <h1>
             ikachan
+            $App::Ikachan::VERSION
             <img src="data:image/png;base64,${logo}" />
         </h1>
 
