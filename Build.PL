@@ -17,7 +17,7 @@ my %module_build_args = (
     "Kazuhiro Osawa <yappo {at} shibuya {dot} pl>"
   ],
   "dist_name" => "App-Ikachan",
-  "dist_version" => "0.13",
+  "dist_version" => "v0.2.0",
   "license" => "perl",
   "module_name" => "App::Ikachan",
   "recommends" => {},

@@ -1,5 +1,13 @@
 Revision history for Perl extension App::Ikachan
 
+{{$NEXT}}
+
+v0.2.0  2013-11-13 18:07:11 JST
+        - change 'bin' directory to 'script'
+        - add mount option (soh335++)
+        - show version (idea by tokuhirom)
+        - go to dist-milla, good bye Module::Install
+
 0.12    2013-05-23T18:33:30+09:00
         - add --enable-ssl option
         - fix documentation bug

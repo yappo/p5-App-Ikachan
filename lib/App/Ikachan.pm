@@ -1,7 +1,7 @@
 package App::Ikachan;
 use strict;
 use warnings;
-our $VERSION = '0.12';
+our $VERSION = 'v0.2.0';
 
 1;
 __END__
