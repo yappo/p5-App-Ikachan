@@ -69,6 +69,10 @@ exit application if interval == 0.
 
 disable to irc message post with channel join
 
+=item -m, --mount
+
+provide TCP based server daemon with path. Default do nothing.
+
 =back
 
 =head1 AUTHOR
