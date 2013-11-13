@@ -134,7 +134,7 @@ my $code = sub {
         } elsif ($path eq '/') {
             my $logo = get_logo();
             my $css = get_css();
-            my $base_path = $mount ? "/$mount" : "";
+            my $base_path = "/$mount";
             my $html =<<HTML;
 <!DOCTYPE html>
 <html>
@@ -264,11 +264,7 @@ my $app = builder {
         enable match_if addr(\@reverse_proxy), 'Plack::Middleware::ReverseProxy';
     }
     enable 'Plack::Middleware::AccessLog', format => 'combined';
-    if ( $mount ) {
-        mount "/$mount" => $code;
-    } else {
-        $code;
-    }
+    mount "/$mount" => $code;
 };
 
 warn "starting httpd: http://$http_host:$http_port/$mount";
