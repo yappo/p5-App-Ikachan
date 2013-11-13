@@ -132,8 +132,6 @@ my $code = sub {
             my $list = [ keys %{ $join_channels } ];
             return rendar(200, join("\n", @$list));
         } elsif ($path eq '/') {
-            my $base = $req->base;
-            $base .= '/' unless $base =~ qr!/$!;
             my $logo = get_logo();
             my $css = get_css();
             my $base_path = $mount ? "/$mount" : "";
@@ -165,7 +163,7 @@ my $code = sub {
         <section>
             <table class="table table-bordered">
                 <tr><td>method</td><td>POST</td></tr>
-                <tr><td>url</td><td>${base}join</td></tr>
+                <tr><td>url</td><td>${base_path}join</td></tr>
                 <tr><td>form params</td><td>channel=#channel&channel_keyword=keyword</td></tr>
             </table>
             <h4>testing form</h4>
@@ -179,7 +177,7 @@ my $code = sub {
             <h3>channel leave</h3>
             <table class="table table-bordered">
                 <tr><td>method</td><td>POST</td></tr>
-                <tr><td>url</td><td>${base}leave</td></tr>
+                <tr><td>url</td><td>${base_path}leave</td></tr>
                 <tr><td>form params</td><td>channel=#channel</td></tr>
             </table>
             <form action="$base_path/leave" method="post">
@@ -191,7 +189,7 @@ my $code = sub {
             <h3>sent notice message to channel</h3>
             <table class="table table-bordered">
                 <tr><td>method</td><td>POST</td></tr>
-                <tr><td>url</td><td>${base}notice</td></tr>
+                <tr><td>url</td><td>${base_path}notice</td></tr>
                 <tr><td>form params</td><td>channel=#channel&message=your_message</td></tr>
             </table>
             <form action="$base_path/notice" method="post">
@@ -204,7 +202,7 @@ my $code = sub {
             <h3>sent privmsg message to channel</h3>
             <table class="table table-bordered">
                 <tr><td>method</td><td>POST</td></tr>
-                <tr><td>url</td><td>${base}privmsg</td></tr>
+                <tr><td>url</td><td>${base_path}privmsg</td></tr>
                 <tr><td>form params</td><td>channel=#channel&message=your_message</td></tr>
             </table>
             <form action="$base_path/privmsg" method="post">
