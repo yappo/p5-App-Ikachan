@@ -22,7 +22,7 @@ my $parser = Getopt::Long::Parser->new(
 
 my %options;
 my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $irc_user, $no_post_with_join, $irc_post_interval, $irc_reconnect_interval, $enable_ssl, $mount) =
-    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', undef, 0, 2, 3, 0, undef);
+    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', undef, 0, 2, 3, 0, '');
 my @reverse_proxy;
 $parser->getoptions(
     'o|host=s'     => \$http_host,
