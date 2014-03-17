@@ -23,8 +23,8 @@ my $parser = Getopt::Long::Parser->new(
 );
 
 my %options;
-my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $irc_user, $no_post_with_join, $irc_post_interval, $irc_reconnect_interval, $enable_ssl, $mount) =
-    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', undef, 0, 2, 3, 0, '');
+my($http_host, $http_port, $irc_server, $irc_port, $irc_keyword, $irc_nickname, $irc_user, $no_post_with_join, $irc_post_interval, $irc_reconnect_interval, $enable_ssl, $mount, $max_length) =
+    ('127.0.0.1', 4979, undef, 6667, undef, 'ikachan', undef, 0, 2, 3, 0, '', 0);
 my @reverse_proxy;
 $parser->getoptions(
     'o|host=s'     => \$http_host,
@@ -40,6 +40,7 @@ $parser->getoptions(
     'enable-ssl'   => \$enable_ssl,
     'R|reconnect-interval=s' => \$irc_reconnect_interval,
     'j|no-post-with-join' => \$no_post_with_join,
+    'l|max-length=i' => \$max_length,
     'h|help'       => \$options{help},
     'v|version'    => \$options{version},
 );
@@ -104,6 +105,12 @@ sub join_channel {
     $join_channels->{$channel} = {
         join_at => time(),
     };
+}
+
+sub truncate_message {
+    my ($message,$max_length) = @_;
+    return $message if ! $max_length;
+    substr($message, 0, $max_length)
 }
 
 my $code = sub {
@@ -245,7 +252,7 @@ HTML
             } elsif (not $join_channels->{$channel}) {
                 join_channel($channel);
             }
-            my $message = $req->param('message');
+            my $message = truncate_message($req->param('message'), $max_length);
             $irc->send_message( $message, channel => $channel );
             return rendar(200, "message sent channel: $channel $message");
         } elsif ($path eq '/privmsg') {
@@ -254,7 +261,7 @@ HTML
             } elsif (not $join_channels->{$channel}) {
                 join_channel($channel);
             }
-            my $message = $req->param('message');
+            my $message = truncate_message($req->param('message'), $max_length);
             $irc->send_message( $message, channel => $channel, privmsg => 1 );
             return rendar(200, "message sent channel: $channel $message");
         }
@@ -6520,6 +6527,10 @@ disable to irc message post with channel join
 =item -m, --mount
 
 provide TCP based server daemon with path. Default do nothing.
+
+=item -l, --max-length
+
+truncate message after a given length. Do not truncate by default.
 
 =back
 
