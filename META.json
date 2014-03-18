@@ -65,7 +65,7 @@
          "web" : "https://github.com/yappo/p5-App-Ikachan"
       }
    },
-   "version" : "v0.2.0",
+   "version" : "v0.2.1",
    "x_contributors" : [
       "HIROSE Masaaki <hirose31@gmail.com>",
       "Kazuhiro Osawa <yappo@shibuya.pl>",
